@@ -1,6 +1,7 @@
 # Digital Twin of a PWR Cooling Loop (Simulation-Lite)
 
-A deterministic, real-time **digital twin** of a simplified Pressurized Water Reactor (PWR) cooling loop built using the **B.L.A.S.T. protocol** and **A.N.T. architecture**.
+A deterministic, real-time **digital twin** of a simplified Pressurized Water Reactor (PWR) cooling loop 
+
 
 - Deterministic seed: `SEED = 42`
 - Fixed timestep: `DT = 1`
