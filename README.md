@@ -1,13 +1,13 @@
-# Digital Twin of a PWR Cooling Loop (Simulation-Lite)
+# Digital Twin of a PWR Cooling Loop (Simulation-Lite) - Master's Level Enhanced
 
-A deterministic, real-time **digital twin** of a simplified Pressurized Water Reactor (PWR) cooling loop 
-
+A deterministic, real-time **digital twin** of a simplified Pressurized Water Reactor (PWR) cooling loop enhanced with master's-level evaluation capabilities, including quantitative metrics, scenario analysis, error analysis, and real-world dataset integration (NPPAD).
 
 - Deterministic seed: `SEED = 42`
 - Fixed timestep: `DT = 1`
 - Core state variables: Temperature (T), Pressure (P, normalized), Flow Rate (F)
 - Fault injection + anomaly detection (Isolation Forest)
 - Streamlit dashboard for visualization + predictive risk reporting
+- **Master's level additions**: evaluation metrics, results tables, scenario analysis, error analysis, NPPAD dataset integration, and more (all optional via dashboard toggles)
 
 ## Scope (Simplified)
 
@@ -137,7 +137,8 @@ Dashboard shows:
 ## Future Extensions
 
 The system can be extended in several directions:
-1. Integration of real-world datasets (if accessible)
+
+1. **Integration of real-world datasets**: The system now includes integration with the [NPPAD (Nuclear Power Plant Accident Dataset)](https://springernature.figshare.com/articles/dataset/NPPAD_An_Open_Time-series_Dataset_Covering_Various_Accidents_for_Nuclear_Power_Plants/21299880?utm_source=chatgpt.com&file=37789332), which contains real PWR transient data from various accident scenarios. The `nppad_parser.py` module enables extraction and conversion of MDB files to the system's CSV schema.
 2. Use of advanced models such as LSTM for time-series prediction
 3. Expansion to full reactor digital twin
 4. Adaptive thresholding using reinforcement learning
