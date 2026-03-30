@@ -133,6 +133,14 @@ Dashboard shows:
 - Predictive horizon uses the same "normal" input profile as training.
 - Forecast uses a deterministic seed offset for stable repeatability.
 
+## Future Extensions
+
+The system can be extended in several directions:
+1. Integration of real-world datasets (if accessible)
+2. Use of advanced models such as LSTM for time-series prediction
+3. Expansion to full reactor digital twin
+4. Adaptive thresholding using reinforcement learning
+
 ## License
 
 No license file is included yet. Add one if you plan to distribute this publicly.

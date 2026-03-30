@@ -11,14 +11,15 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 import pandas as pd
 
+import config as cfg
 from inject_faults import apply_faults
 
 
 @dataclass(frozen=True)
 class Params:
     # Determinism / time
-    SEED: int = 42
-    DT: int = 1
+    SEED: int = cfg.SEED
+    DT: int = cfg.DT
 
     # Ranges
     T_MIN: float = 250.0
@@ -31,14 +32,14 @@ class Params:
     Q_MAX: float = 200.0
 
     # Coefficients
-    ALPHA: float = 0.05
-    K_C: float = 0.02
-    K_P: float = 0.01
-    ETA_PUMP: float = 0.9
-    F_BASE: float = 50.0
+    ALPHA: float = cfg.ALPHA
+    K_C: float = cfg.K_C
+    K_P: float = cfg.K_P
+    ETA_PUMP: float = cfg.ETA_PUMP
+    F_BASE: float = cfg.F_BASE
 
     # Noise
-    SIGMA: float = 0.5
+    SIGMA: float = cfg.SIGMA
 
 
 def _clip(x: float, lo: float, hi: float) -> float:

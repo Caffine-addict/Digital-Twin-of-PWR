@@ -13,6 +13,7 @@ from sklearn.ensemble import IsolationForest
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
+import config as cfg
 from simulate_system import Params, generate_inputs, simulate
 
 from features import FEATURE_ORDER, make_features
@@ -62,8 +63,8 @@ def train_and_save(
         },
         "score_quantiles": _quantiles(scores, [0.01, 0.05, 0.50, 0.95, 0.99]),
         "expected_rates_on_normal": {
-            "warning_rate": float((scores < -0.1).mean()),
-            "critical_rate": float((scores < -0.2).mean()),
+            "warning_rate": float((scores < float(cfg.WARNING_SCORE_THRESHOLD)).mean()),
+            "critical_rate": float((scores < float(cfg.CRITICAL_SCORE_THRESHOLD)).mean()),
         },
     }
 
