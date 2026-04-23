@@ -1,0 +1,292 @@
+# DIAGRAM PROMPTS FOR NANOBANA PRO
+
+Use these prompts to create professional diagrams for your IEEE technical report.
+
+---
+
+## DIAGRAM 1: SYSTEM ARCHITECTURE (A.N.T Structure)
+
+**Title:** System Architecture - Analysis-Numerics-Testing Structure
+
+**Description:**
+Create a three-column architecture diagram showing:
+- Left column: "ANALYSIS" with boxes for Evaluation Metrics, Results Table, Scenario Analysis, Error Analysis, NPPAD Integration
+- Center column: "NUMERICS" with boxes for Core Simulation (simulate_system.py), Fault Injection (inject_faults.py), Feature Engineering (features.py), ML Model (Isolation Forest), Optional Modules
+- Right column: "TESTING" with Streamlit Dashboard, User Controls (toggles/buttons), Outputs (runs/ directory)
+- Arrows showing bidirectional flow between Analysis and Numerics (validation),单向 flows from Numerics to Testing
+- Colors: Use blue (#2563eb) for Analysis, green (#16a34a) for Numerics, orange (#ea580c) for Testing
+- Include title "Figure 1: System Architecture" at top
+
+---
+
+## DIAGRAM 2: DATA FLOW PIPELINE
+
+**Title:** Data Processing Pipeline
+
+**Description:**
+Create a horizontal flow diagram showing:
+- Left: Two input boxes - "Synthetic Data Generator" and "NPPAD Dataset (MDB files)"
+- Arrow to "Fault Injection" box showing fault schedule application
+- Arrow to "Physics Simulation" showing locked equations execution
+- Arrow to "Feature Engineering" with "10-step sliding window" annotation
+- Arrow to "ML Scoring (Isolation Forest)" 
+- Arrow to "Status Mapping: NORMAL/WARNING/CRITICAL"
+- Three output paths: Evaluation Metrics, Dashboard Visualization, Results File (runs/)
+- Add small sidebar "SEED=42" indicator for reproducibility
+- Colors: Use gradient from blue to green, professional flow arrows
+- Include title "Figure 2: Data Processing Pipeline"
+
+---
+
+## DIAGRAM 3: FAULT MODELING MECHANISM
+
+**Title:** Fault Modeling and Application
+
+**Description:**
+Create a diagram showing fault application:
+- Top box: "Fault Schedule Input" showing table of fault_type, start_time, end_time, magnitude
+- Three parallel arrow paths below:
+  1. Path labeled "Pump Fault": Input → Formula: effective_eta = ETA × (1-mag) → Output to Flow equation
+  2. Path labeled "Overheating": Input → Formula: Q_in × (1+mag) → Output to Temperature equation  
+  3. Path labeled "Pressure Spike": Input → Formula: k_p × (1+mag) → Output to Pressure equation
+- Right side: Show locked equations applied after fault modifications
+- Bottom: Show sensor noise addition and clamping
+- Colors: Use distinct colors for each fault type (blue for pump, red for heat, orange for pressure)
+- Include title "Figure 3: Fault Modeling Mechanism"
+
+---
+
+## DIAGRAM 4: FEATURE ENGINEERING
+
+**Title:** Sliding Window Feature Engineering
+
+**Description:**
+Create a diagram showing feature extraction:
+- Top: Time-series input showing T(t), P(t), F(t) over time steps t-9 to t
+- Middle: Sliding window visualization showing window of size 10 moving right
+- Right box inside middle: "Feature Extraction per Window" showing:
+  - For each variable (T, P, F): Mean, Std, Min, Max, Range, Diff1, Diff2
+  - Total: 21 features per window
+- Bottom: "Normalization (epsilon=1e-6)" box
+- Output arrow to ML model
+- Colors: Use light blue background, clear feature names
+- Include title "Figure 4: Feature Engineering Pipeline"
+
+---
+
+## DIAGRAM 5: EVALUATION METRICS COMPUTATION
+
+**Title:** Quantitative Evaluation Metrics
+
+**Description:**
+Create a 2x2 grid showing metric computation:
+
+- Top-left box "False Positive Rate (FPR)":
+  - Formula: FP / (FP + TN)
+  - Visual: Highlight normal period with false alarm markers in red
+  
+- Top-right box "Detection Rate (DR)":
+  - Formula: TP / (TP + FN)  
+  - Visual: Highlight fault period with detection markers in green
+  
+- Bottom-left box "Detection Delay (DD)":
+  - Formula: Average(time_from_fault_start_to_detection)
+  - Visual: Timeline showing fault interval and first detection point
+  
+- Bottom-right box "Prediction MAE":
+  - Formula: Mean(|actual - predicted|)
+  - Visual: Two overlapping lines (actual vs predicted)
+
+- Arrow from each box showing computation input: DataFrame with anomaly_flag, fault_class columns
+- Colors: Use standard metric colors (FPR=red, DR=green, DD=blue, MAE=purple)
+- Include title "Figure 5: Evaluation Metrics Computation"
+
+---
+
+## DIAGRAM 6: SCENARIO DEFINITIONS
+
+**Title:** Predefined Test Scenarios
+
+**Description:**
+Create horizontal timeline showing five scenarios:
+
+- Timeline axis from 0 to 1000 (or similar range)
+- Colored bars showing fault duration for each scenario:
+
+1. **Normal**: Green bar across entire timeline, label "Normal Operation (No Faults)"
+
+2. **Pump Failure**: Blue bar from 200-800, label "Pump Failure (magnitude=0.5)"
+
+3. **Overheating**: Red bar from 200-800, label "Overheating (magnitude=0.5)"
+
+4. **Pressure Spike**: Orange bar from 200-800, label "Pressure Spike (magnitude=0.5)"
+
+5. **Combined Faults**: Purple stacked bars showing overlapping faults 200-800 (pump), 300-900 (heat), 400-1000 (pressure), label "Combined Faults"
+
+- Legend showing color coding for each fault type
+- Add small text showing "SEED=42, Evaluation Metrics computed per scenario"
+- Include title "Figure 6: Predefined Test Scenarios"
+
+---
+
+## DIAGRAM 7: NPPAD DATASET INTEGRATION
+
+**Title:** Real-World Data Integration - NPPAD Dataset
+
+**Description:**
+Create left-to-right flow showing data integration:
+
+- Left box: "NPPAD Dataset" with:
+  - 2,434 MDB files
+  - 69 sensors
+  - Multiple transient types (ATWS, FLB, LOCA, Normal)
+  - Source link: springernature.figshare.com
+
+- Arrow to "nppad_parser.py" box:
+  - Extract MDB using mdbtools
+  - Convert to CSV
+  - Variable mapping (TIME→time, TAVG→temperature, etc.)
+
+- Arrow to "data_sources.py" box:
+  - Function: load_real_csv()
+  - Handle missing inputs with defaults
+
+- Arrow to "data/real_data.csv"
+
+- Arrow to score_and_flag processing
+
+- Bottom note: "Enables validation against real PWR accident scenarios"
+
+- Colors: Use green for data flow, gray for processing steps
+- Include title "Figure 7: NPPAD Dataset Integration"
+
+---
+
+## DIAGRAM 8: RESULTS VISUALIZATION
+
+**Title:** Evaluation Results Summary
+
+**Description:**
+Create two visualizations combining:
+
+Left side - Method Comparison Bar Chart:
+- X-axis: Detection Method (Isolation Forest, Z-Score, MAD)
+- Y-axis: False Positive Rate (0-1.0)
+- Bars showing:
+  - Isolation Forest: ~1.0 (high)
+  - Z-Score: ~0.004 (very low)
+  - MAD: ~0.0 (zero)
+
+Right side - Scenario Performance:
+- X-axis: Scenario (Normal, Pump Failure, Overheating, Pressure Spike, Combined)
+- Y-axis: Detection Rate (0-1.0)  
+- Bars showing:
+  - Normal: 0.0
+  - Pump Failure: 0.784 (highest - key finding)
+  - Overheating: 0.0
+  - Pressure Spike: 0.0
+  - Combined Faults: 0.418
+
+Add small caption highlighting key findings:
+- "Pump failure detection: 78.4%"
+- "Combined fault detection: 41.8%"
+- "Z-Score and MAD achieve zero FPR"
+
+- Colors: Use blue bars with darker blue highlights for key values
+- Include title "Figure 8: Evaluation Results Summary"
+
+---
+
+## DIAGRAM 9: DASHBOARD INTERFACE
+
+**Title:** Streamlit Dashboard Interface
+
+**Description:**
+Create a top-down layout showing:
+
+Top: "PWR Cooling Loop Digital Twin" banner
+
+Left Sidebar (20% width) sections:
+- Simulation Controls box (n_steps, heat_input, ambient_temp, pump_status)
+- Fault Schedule Editor box (editable table with preset buttons)
+- Model Controls box (model path, horizon)
+- Optional Extensions checkboxes (use_full_reactor_model, predictor_method, adaptive_thresholding, etc.)
+- Evaluation / Experiments buttons (Run Evaluation, Run Scenario Analysis, etc.)
+- Data Source selector (simulated / real_csv)
+
+Main Content Area (80% width):
+- Tabbed interface showing: Live Run, Anomalies, Predictive, Reports
+- Live Run tab showing: Status strip, metrics (temperature, pressure, flow_rate, anomaly_score), three signal charts
+
+Right side indicators:
+- Arrow from dashboard to "Models/ directory"
+- Arrow from dashboard to "Runs/ directory" showing JSON/CSV outputs
+
+- Note: Mark "All features togglable - preserves original behavior when disabled"
+- Colors: Use dashboard-style colors (sidebar dark gray, content light)
+- Include title "Figure 9: Dashboard Interface"
+
+---
+
+## DIAGRAM 10: REPRODUCIBILITY FRAMEWORK
+
+**Title:** Reproducibility and Output Structure
+
+**Description:**
+Create a hierarchical output structure:
+
+Top: "Deterministic Configuration"
+- SEED = 42 (highlighted in box)
+- Fixed DT = 1
+- Locked equations from gemini.md
+
+Middle: "Processing Flow"  
+- Input (SEED-controlled) → Simulation → Features → ML → Outputs
+- Each arrow labeled with deterministic/process-dependent
+
+Bottom: "Output Directories"
+
+- Models/ directory:
+  - isolation_forest.joblib
+  - *.report.json files
+
+- Runs/ directory (highlighted as key output):
+  - results_table.csv
+  - scenario_results.json  
+  - error_analysis.json
+  - experiments/*.json
+  - ablation/*.json
+  - calibration/*.json
+
+- Data/ directory:
+  - real_data.csv
+  - data/csv/ (extracted NPPAD files)
+
+Side note: "Same SEED + Same Inputs = Reproducible Outputs"
+
+- Include title "Figure 10: Reproducibility Framework"
+
+---
+
+# USAGE INSTRUCTIONS
+
+1. Create diagrams one at a time using the prompts above
+2. Maintain consistent styling across all diagrams:
+   - Professional color palette (blues, greens, oranges)
+   - Sans-serif fonts throughout
+   - Consistent line weights
+3. Add figure numbers and captions in each diagram
+4. Reference diagrams in your report text as "Figure X shows..."
+5. Export as PNG or SVG for high-quality printing
+
+The diagrams should be placed in your report as:
+- Figure 1 (after "System Overview" section)
+- Figure 2 (after "System Overview" or in a dedicated pipeline section)
+- Figure 3 (in "Fault Modeling" section)
+- Figure 4 (in "Feature Engineering" section)  
+- Figure 5 (in "Evaluation Metrics" section)
+- Figure 6 (in "Experimental Setup" section)
+- Figure 7 (in "Data Generation" section)
+- Figure 8 (in "Results and Analysis" section)
+- Figure 9 (in "System Overview" or create a new interface section)
+- Figure 10 (in Conclusion or create reproducibility section)
